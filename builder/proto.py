@@ -160,24 +160,21 @@ class ProtoBuilder:
             if 'messages' in PushMessagesRequest:
                 messages = PushMessagesRequest['messages']
                 for k, v in messages.items():
-                    try:
-                        fromId = v['fromId']
-                        content = v['content']
-                        ChatId = v['chatId']
-                        TextContent = FLY_BOOK_PROTO.TextContent()
-                        TextContent.ParseFromString(content)
-                        TextContent = protobuf_to_dict(TextContent)
-                        v['content'] = TextContent
-                        dictionary = TextContent['richText']['elements']['dictionary']
-                        for k, v in dictionary.items():
-                            property = v['property']
-                            TextProperty = FLY_BOOK_PROTO.TextProperty()
-                            TextProperty.ParseFromString(property)
-                            TextProperty = protobuf_to_dict(TextProperty)
-                            v['property'] = TextProperty
-                            ReceiveTextContent += TextProperty['content']
-                    except Exception as e:
-                        pass
+                    fromId = v['fromId']
+                    content = v['content']
+                    ChatId = v['chatId']
+                    TextContent = FLY_BOOK_PROTO.TextContent()
+                    TextContent.ParseFromString(content)
+                    TextContent = protobuf_to_dict(TextContent)
+                    v['content'] = TextContent
+                    dictionary = TextContent['richText']['elements']['dictionary']
+                    for k, v in dictionary.items():
+                        property = v['property']
+                        TextProperty = FLY_BOOK_PROTO.TextProperty()
+                        TextProperty.ParseFromString(property)
+                        TextProperty = protobuf_to_dict(TextProperty)
+                        v['property'] = TextProperty
+                        ReceiveTextContent += TextProperty['content']
 
         return Frame, Packet_sid, fromId, ChatId, ReceiveTextContent
 

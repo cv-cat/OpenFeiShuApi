@@ -385,7 +385,34 @@ message entities {
         bool isSpecialFocus = 56;
         bool isIncludeDocUrl = 58;
         int64 cipherId = 59;
+        enum Type {
+            UNKNOWN = 0;
+            POST = 2;
+            FILE = 3;
+            TEXT = 4;
+            IMAGE = 5;
+            SYSTEM = 6;
+            AUDIO = 7;
+            EMAIL = 8;
+            SHARE_GROUP_CHAT = 9;
+            STICKER = 10;
+            MERGE_FORWARD = 11;
+            CALENDAR = 12;
+            CLOUD_FILE = 13;
+            CARD = 14;
+            MEDIA = 15;
+            SHARE_CALENDAR_EVENT = 16;
+            HONGBAO = 17;
+            GENERAL_CALENDAR = 18;
+            VIDEO_CHAT = 19;
+            LOCATION = 20;
+            COMMERCIALIZED_HONGBAO = 22;
+            SHARE_USER_CARD = 23;
+            TODO = 24;
+            FOLDER = 25;
+        }
     }
+
 
     enum FromType {
         UNKNOWN_FROMTYPE = 0;

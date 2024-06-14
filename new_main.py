@@ -46,11 +46,12 @@ class FlyBookLive:
                                     else:
                                         chatId = user_or_group_id['id']
                                     self.fly_book_api.send_msg(self.auth, send_text, chatId)
-                                else:
-                                    raise Exception
+                                # else:
+                                #     raise Exception
                             except Exception as e:
-                                send_text = '我是一个机器人，如果你想和我聊天，请@我并发送消息，消息格式：给$用户名$发送$消息内容$'
-                                self.fly_book_api.send_msg(self.auth, send_text, MessageChatId)
+                                pass
+                                # send_text = '我是一个机器人，如果你想和我聊天，请@我并发送消息，消息格式：给$用户名$发送$消息内容$'
+                                # self.fly_book_api.send_msg(self.auth, send_text, MessageChatId)
 
 
                     sends = FLY_BOOK_PROTO.Packet()
@@ -62,6 +63,9 @@ class FlyBookLive:
                     # websocket.send(s, opcode=0x2)
                     print('==============================')
                 except Exception as e:
+                    exception = str(e)
+                    if 'parsing message' in exception:
+                        continue
                     print(str(e))
 
 
