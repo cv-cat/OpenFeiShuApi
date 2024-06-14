@@ -1,4 +1,5 @@
 import re
+import time
 
 import requests
 
@@ -52,5 +53,22 @@ class ParamsBuilder:
             "fpid": "2",
             "accept_encoding": "gzip",
             "request_id": request_id
+        })
+        return params
+
+    @staticmethod
+    def build_get_user_info_param():
+        params = Params()
+        params.add_param_by_dict({
+            "app_id": "12",
+            "_t": str(int(time.time() * 1000))
+        })
+        return params
+
+    @staticmethod
+    def build_get_csrf_token_param():
+        params = Params()
+        params.add_param_by_dict({
+            "_t": str(int(time.time() * 1000))
         })
         return params

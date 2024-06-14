@@ -1,4 +1,4 @@
-from utils.fly_book_utils import generate_request_id
+from utils.fly_book_utils import generate_request_id, generate_long_request_id
 
 
 class Header:
@@ -42,6 +42,65 @@ class HeaderBuilder:
         return header
 
     @staticmethod
+    def build_get_csrf_token_header():
+        get_csrf_token_header = {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "cache-control": "no-cache",
+            "content-length": "0",
+            "origin": "https://open-dev.feishu.cn",
+            "priority": "u=1, i",
+            "referer": "https://open-dev.feishu.cn/",
+            "sec-ch-ua": "\"Microsoft Edge\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0",
+            "x-api-version": "1.0.8",
+            "x-app-id": "12",
+            "x-device-info": "platform=websdk",
+            "x-lgw-os-type": "1",
+            "x-lgw-terminal-type": "2",
+            "x-request-id": generate_request_id(),
+            "x-terminal-type": "2"
+        }
+        header = Header()
+        header.set_header_from_dict(get_csrf_token_header)
+        return header
+
+    @staticmethod
+    def build_get_user_info_header(x_csrf_token):
+        get_user_info_header = {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "cache-control": "no-cache",
+            "origin": "https://open-dev.feishu.cn",
+            "priority": "u=1, i",
+            "referer": "https://open-dev.feishu.cn/",
+            "sec-ch-ua": "\"Microsoft Edge\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0",
+            "x-api-version": "1.0.8",
+            "x-app-id": "12",
+            "x-csrf-token": x_csrf_token,
+            "x-device-info": "platform=websdk",
+            "x-lgw-os-type": "1",
+            "x-lgw-terminal-type": "2",
+            "x-locale": "zh-CN",
+            "x-request-id": generate_long_request_id(),
+            "x-terminal-type": "2"
+        }
+        header = Header()
+        header.set_header_from_dict(get_user_info_header)
+        return header
+
+    @staticmethod
     def build_send_msg_header():
         send_msg_header = {
             "accept": "*/*",
@@ -71,5 +130,65 @@ class HeaderBuilder:
         header.set_header_from_dict(send_msg_header)
         return header
 
+    @staticmethod
+    def build_create_chat_header():
+        create_chat_header = {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-type": "application/x-protobuf",
+            "locale": "zh_CN",
+            "origin": "https://open-dev.feishu.cn",
+            "priority": "u=1, i",
+            "referer": "https://open-dev.feishu.cn/",
+            "sec-ch-ua": "\"Microsoft Edge\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0",
+            "x-appid": "161471",
+            "x-command": "13",
+            "x-command-version": "2.7.0",
+            "x-lgw-os-type": "1",
+            "x-lgw-terminal-type": "2",
+            "x-request-id": generate_request_id(),
+            "x-source": "web",
+            "x-web-version": "3.9.32"
+        }
+        header = Header()
+        header.set_header_from_dict(create_chat_header)
+        return header
 
 
+    @staticmethod
+    def build_search_header():
+        search_header = {
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate, br, zstd",
+            "accept-language": "zh-CN,zh;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6",
+            "content-length": "117",
+            "content-type": "application/x-protobuf",
+            "locale": "zh_CN",
+            "origin": "https://open-dev.feishu.cn",
+            "priority": "u=1, i",
+            "referer": "https://open-dev.feishu.cn/",
+            "sec-ch-ua": "\"Microsoft Edge\";v=\"125\", \"Chromium\";v=\"125\", \"Not.A/Brand\";v=\"24\"",
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": "\"Windows\"",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36 Edg/125.0.0.0",
+            "x-appid": "161471",
+            "x-command": "11021",
+            "x-command-version": "2.7.0",
+            "x-lgw-os-type": "1",
+            "x-lgw-terminal-type": "2",
+            "x-request-id": generate_request_id(),
+            "x-source": "web",
+            "x-web-version": "3.9.32"
+        }
+        header = Header()
+        header.set_header_from_dict(search_header)
+        return header

@@ -48,6 +48,264 @@ message PutMessageRequest {
     repeated string leftStaticResourceKeys = 101;
     bytes thriftMessage = 102;
 }
+
+
+message PutChatRequest {
+    Type type = 1;
+    repeated string userIds = 2;
+    string groupName = 3;
+    string groupDesc = 4;
+    bool isPublic = 5;
+    repeated string chatterIds = 6;
+    string organizationId = 7;
+    string fromChatId = 8;
+    repeated string initMessageIds = 9;
+    string iconKey = 10;
+    map<string, DocPermType> docPerms = 11;
+    bool isCrossTenant = 12;
+    bool isPublicV2 = 13;
+    map<string, DocPair> docPerms2 = 15;
+    string cid = 16;
+
+    enum DocPermType {
+        UNKNOWN = 0;
+        READ = 1;
+        EDIT = 2;
+    }
+
+    message DocPair {
+        map<string, DocPermType> perms = 1;
+    }
+}
+
+message PutChatResponse {
+    Chat chat = 1;
+    FeedCard feedCard = 2;
+}
+
+message UniversalSearchRequest {
+    SearchCommonRequestHeader header = 1;
+}
+
+
+
+message UniversalSearchResponse {
+    SearchCommonResponseHeader header = 1;
+    repeated SearchResult results = 2;
+    SearchExtraFields extraFields = 3;
+    repeated FailedEntityInfo failedEntityInfos = 5;
+
+
+    message SearchResult {
+        string id = 1;
+        SearchEntityType type = 2;
+        string titleHighlighted = 3;
+        string summaryHighlighted = 4;
+        string extrasHighlighted = 5;
+        string avatarKey = 6;
+        string extraInfoSeparator = 10;
+    }
+
+    enum SearchEntityType {
+        UNKNOWN = 0;
+        USER = 1;
+        BOT = 2;
+        GROUP_CHAT = 3;
+        CRYPTO_P2P_CHAT = 4;
+        MESSAGE = 5;
+        DOC = 7;
+        WIKI = 8;
+        APP = 9;
+        ONCALL = 10;
+        THREAD = 11;
+        QA_CARD = 12;
+        URL = 13;
+        DEPARTMENT = 14;
+        PANO = 15;
+        SLASH_COMMAND = 16;
+        SECTION = 17;
+        RESOURCE = 18;
+        CUSTOMIZATION = 19;
+        FACILITY = 20;
+        MAIL_CONTACT = 21;
+        CHAMELEON = 22;
+        CALENDAR_EVENT = 23;
+    }
+
+
+    message SearchCommonResponseHeader {
+        string searchSession = 1;
+        int32 sessionSeqId = 2;
+        int32 total = 3;
+        bool hasMore = 4;
+        string paginationToken = 5;
+        InvokeAbnormalNotice invokeAbnormalNotice = 6;
+        ColdAndHotStorageInfo storageInfo = 7;
+
+        enum InvokeAbnormalNotice {
+          INVOKE_NORMAL = 0;
+          REQUEST_CANCELED = 1;
+          VERSION_SWITCH = 2;
+          QUERY_LENGTH_EXCEEDED = 3;
+        }
+
+        message ColdAndHotStorageInfo {
+            bool isNeedColdData = 1;
+            int32 timeSize = 2;
+            TimeUnit timeUnit = 3;
+            string timeText = 4;
+            HasMoreInfo hasMoreInfo = 5;
+
+            enum TimeUnit {
+                TimeUNKNOWN = 0;
+                DAY = 1;
+                WEEK = 2;
+                MONTH = 3;
+                YEAR = 4;
+            }
+            enum HasMoreInfo {
+                UNKNOWN = 0;
+                HOT_HAS_MORE = 1;
+                HOT_HAS_NO_MORE = 2;
+                COLD_HAS_MORE = 3;
+                COLD_HAS_NO_MORE = 4;
+            }
+        }
+    }
+
+    message SearchExtraFields {
+        bytes chatterPermissionResponse = 1;
+    }
+
+    message FailedEntityInfo {
+        SearchEntityType entityType = 1;
+        bool isNeedLocalFallback = 2;
+        string localPaginationToken = 3;
+
+        enum SearchEntityType {
+            UNKNOWN = 0;
+            USER = 1;
+            BOT = 2;
+            GROUP_CHAT = 3;
+            CRYPTO_P2P_CHAT = 4;
+            MESSAGE = 5;
+            DOC = 7;
+            WIKI = 8;
+            APP = 9;
+            ONCALL = 10;
+            THREAD = 11;
+            QA_CARD = 12;
+            URL = 13;
+            DEPARTMENT = 14;
+            PANO = 15;
+            SLASH_COMMAND = 16;
+            SECTION = 17;
+            RESOURCE = 18;
+            CUSTOMIZATION = 19;
+            FACILITY = 20;
+            MAIL_CONTACT = 21;
+            CHAMELEON = 22;
+            CALENDAR_EVENT = 23;
+        }
+    }
+}
+
+message SearchCommonRequestHeader {
+    string searchSession = 1;
+    int32 sessionSeqId = 2;
+    string query = 3;
+    string paginationToken = 4;
+    BaseEntity.SearchContext searchContext = 5;
+    string locale = 6;
+    string impressionId = 7;
+    SearchExtraParam extraParam = 8;
+    Layout titleLayout = 9;
+    Layout summaryLayout = 10;
+    int32 pageSize = 11;
+    Layout sectionSummaryLayout = 13;
+    message Layout {
+        int32 line = 1;
+        int32 width = 2;
+    }
+}
+message SearchExtraParam {
+    bytes chatterPermissionRequest = 1;
+    int32 queryInputState = 2;
+}
+message BaseEntity {
+    message SearchContext {
+        string tagName = 1;
+        repeated EntityItem entityItems = 2;
+        CommonFilter commonFilter = 3;
+        string sourceKey = 5;
+    }
+}
+
+message CommonFilter {
+    bool includeOuterTenant = 1;
+    string chatId = 2;
+}
+message UserFilter {
+    message FieldValues {
+        repeated string values = 1;
+    }
+    bool isResigned = 1;
+    bool haveChatter = 2;
+    map<string, FieldValues> customFields = 3;
+    bool exclude = 4;
+}
+message GroupChatFilter {
+    repeated SearchType searchTypes = 1;
+    repeated string chatMemberIds = 2;
+    repeated string excludedChatIds = 3;
+    bool searchCrypto = 4;
+    bool addableAsUser = 5;
+}
+
+enum SearchType {
+    TYPE_UNSPECIFIED = 0;
+    SEARCH_TYPE_1 = 1;
+    SEARCH_TYPE_2 = 2;
+}
+message EntityItem {
+    SearchEntityType type = 1;
+    EntityFilter filter = 2;
+    repeated string boostChatIds = 4;
+    string localPaginationToken = 5;
+
+    message EntityFilter {
+        oneof filter {
+          UserFilter userFilter = 1;
+          GroupChatFilter groupChatFilter = 2;
+        }
+    }
+    enum SearchEntityType {
+        UNKNOWN = 0;
+        USER = 1;
+        BOT = 2;
+        GROUP_CHAT = 3;
+        CRYPTO_P2P_CHAT = 4;
+        MESSAGE = 5;
+        DOC = 7;
+        WIKI = 8;
+        APP = 9;
+        ONCALL = 10;
+        THREAD = 11;
+        QA_CARD = 12;
+        URL = 13;
+        DEPARTMENT = 14;
+        PANO = 15;
+        SLASH_COMMAND = 16;
+        SECTION = 17;
+        RESOURCE = 18;
+        CUSTOMIZATION = 19;
+        FACILITY = 20;
+        MAIL_CONTACT = 21;
+        CHAMELEON = 22;
+        CALENDAR_EVENT = 23;
+    }
+}
+
 message Content {
     string text = 1;
     string imageKey = 2;
@@ -306,4 +564,153 @@ enum Type {
     SHARE_USER_CARD = 23;
     TODO = 24;
     FOLDER = 25;
+}
+
+message Chat {
+    string id = 1;
+    Type type = 2;
+    string lastMessageId = 3;
+    string name = 4;
+    string ownerId = 6;
+    int32 newMessageCount = 7;
+    Status status = 8;
+    int64 updateTime = 9;
+    string key = 10;
+    string description = 11;
+    int32 memberCount = 12;
+    bool isDepartment = 13;
+    bool isPublic = 14;
+    int32 lastMessagePosition = 15;
+    int32 userCount = 16;
+    string namePinyin = 17;
+    int64 createTime = 18;
+    bool isCustomerService = 19;
+    Role role = 20;
+    bool isCustomIcon = 21;
+    int32 noBadgedNewMessageCount = 22;
+    bool offEditGroupChatInfo = 23;
+    Announcement announcement = 24;
+    string tenantId = 25;
+    int64 updateTimeMs = 26;
+    bool isRemind = 27;
+    bool isDissolved = 30;
+    bool isMeeting = 31;
+    string lastVisibleMessageId = 32;
+    string lastThreadId = 33;
+    int32 newThreadCount = 34;
+    int32 lastThreadPosition = 35;
+    bool isCrypto = 36;
+    int32 noBadgedNewThreadCount = 37;
+    int32 threadStartPosition = 38;
+    ChatMode chatMode = 39;
+    bool isCrossTenant = 41;
+    bool isTenant = 42;
+    SupportView supportView = 43;
+    int64 joinTimeMs = 44;
+    int64 oncallId = 45;
+    int32 lastVisibleMessagePosition = 46;
+    int32 lastVisibleMessageNoBadgedCount = 47;
+    int32 readPosition = 48;
+    int32 readPositionBadgeCount = 49;
+    int32 lastMessagePositionBadgeCount = 50;
+    bool enableWatermark = 51;
+    string sidebarId = 53;
+    string namePy = 100;
+    map<string, string> i18nNames = 101 [deprecated = true];
+    I18nInf i18nInf = 102;
+    int32 readThreadPosition = 103;
+    int32 readThreadPositionBadgeCount = 104;
+    int32 lastThreadPositionBadgeCount = 105;
+    int32 lastVisibleThreadPosition = 106;
+    string lastVisibleThreadId = 107;
+    bool isPublicV2 = 109;
+    bool allowPost = 111;
+    int64 burnedTime = 112;
+    int32 putChatterApplyCount = 113;
+    bool showBanner = 114;
+    bool isLargeGroup = 115;
+    int32 firstChatMessagePosition = 116;
+    repeated int32 tags = 117 [packed = false];
+    map<string, string> extra = 118;
+    bool isSamePageMeeting = 119;
+    int64 myThreadsReadTimestamp = 120;
+    int64 myThreadsLastTimestamp = 121;
+
+    enum Type {
+        UNKNOWN = 0;
+        P2P = 1;
+        GROUP = 2;
+        TOPIC_GROUP = 3;
+    }
+
+    enum Status {
+        NORMAL = 0;
+        ARCHIVE = 1;
+        DELETED = 2;
+    }
+
+    enum ChatMode {
+        UNKNOWN_CHAT_MODE = 0;
+        DEFAULT = 1;
+        THREAD = 2;
+        THREAD_V2 = 3;
+    }
+
+    enum SupportView {
+        VIEW_UNKNOWN = 0;
+        VIEW_P2PGROUP = 1;
+        VIEW_MEETING = 2;
+        VIEW_THREAD = 3;
+        VIEW_CRYPTO = 4;
+    }
+
+    enum Role {
+        IGNORE = 0;
+        MEMBER = 1;
+        VISITOR = 2;
+        THREAD_FOLLOWER = 3;
+    }
+
+    message Announcement {
+        string content = 1;
+        int64 updateTime = 2;
+        string lastEditorId = 3;
+        string docUrl = 4;
+        bool enableOpendoc = 5;
+    }
+
+    message I18nInf {
+        map<string, string> i18nNames = 1;
+    }
+}
+
+
+message FeedCard {
+    string id = 1;
+    Type type = 2;
+    int64 updateTime = 3;
+    bool isDelayed = 4;
+    int64 parentCardId = 5;
+    int64 rankTime = 6;
+    FeedType feedType = 7;
+    string imprId = 8;
+    int64 updateTimeMs = 9;
+
+    enum Type {
+        UNKNOWN_TYPE = 0;
+        CHAT = 1;
+        MAIL = 2;
+        DOC = 3;
+        THREAD = 4;
+        BOX = 5;
+        OPENAPP = 6;
+        TOPIC = 7;
+        APP_CHAT = 8;
+    }
+
+    enum FeedType {
+        TYPE_UNKNOWN = 0;
+        TYPE_NEWS = 1;
+        TYPE_SOCIAL = 2;
+    }
 }

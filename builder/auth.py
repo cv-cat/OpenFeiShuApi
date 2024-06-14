@@ -1,6 +1,5 @@
 from utils.fly_book_utils import trans_cookies
 
-
 class FlyBookAuth:
     def __init__(self):
         self.cookie = {}

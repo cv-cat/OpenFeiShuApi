@@ -139,7 +139,14 @@ function generate_request_id() {
     return (Math.random().toString(36) + "0000000000").substring(2, 2 + "0000000000".length)
 }
 
-// request_cid
+function generate_long_request_id() {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (function(e) {
+            var t = 16 * Math.random() | 0;
+            return ("x" === e ? t : 3 & t | 8).toString(16)
+        }
+    ))
+}
+// request_cid and session_id
 function generate_request_cid() {
     let e = 10, t = undefined
     const n = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("")
@@ -164,3 +171,13 @@ function generate_request_cid() {
             i[r] = n[19 === r ? 3 & a | 8 : a]);
     return i.join("")
 }
+
+
+function generate_csrf_token() {
+    let e = "swp_csrf_token"
+    let document = {
+        cookie: "locale=zh-CN; _gcl_au=1.1.1773137480.1713790863; _ga=GA1.1.252483876.1713790863; _ga_VPYRHN104D=GS1.1.1713790863.1.1.1713790872.51.0.0; lang=zh; __tea__ug__uid=1007701713790873353; et=5149005c67cbe62db3d7f613bb9c7440; Hm_lvt_e78c0cb1b97ef970304b53d2097845fd=1716609558; i18n_locale=zh-CN; _csrf_token=36b375aad3381c672c2752df4c2f78c9bc1b51ae-1716787751; ccm_cdn_host=//lf-scm-cn.feishucdn.com; MONITOR_WEB_ID=eb362632-773d-4a6c-b3f7-fd69a73f80e1; msToken=1aL_Z6EfXm8A5YvLxai6CT2XUrk4rk-TS1Tr9VEIqx5dwdqXD_raGfMXYFZPQr3B_aVm00bKlLyYQ6fw2u-BHADiWT81bCZ2Vfft2Dm0_AzIVT8PUcoBPjUu0STE1Q==; swp_csrf_token=b2f409f7-fd71-4915-bf04-9248fcedd78d"
+    }
+    return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*".concat(encodeURIComponent(e).replace(/[-.+*]/g, "\\$&"), "\\s*\\=\\s*([^;]*).*$)|^.*$")), "$1")) || ""
+}
+
