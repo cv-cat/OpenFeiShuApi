@@ -155,8 +155,10 @@ class ProtoBuilder:
         print(3)
         if 'payload' in Packet:
             payload = Packet['payload']
+            print(1)
             PushMessagesRequest = FLY_BOOK_PROTO.PushMessagesRequest()
             PushMessagesRequest.ParseFromString(payload)
+            print(2)
             PushMessagesRequest = protobuf_to_dict(PushMessagesRequest)
             Packet['payload'] = PushMessagesRequest
             print(4)

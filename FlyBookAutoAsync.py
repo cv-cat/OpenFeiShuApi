@@ -16,6 +16,7 @@ from builder.proto import ProtoBuilder
 
 class FlyBookLive:
     def __init__(self, auth):
+        self.base_url = 'wss://msg-frontier.feishu.cn/ws/v2'
         self.auth = auth
         self.fly_book_api = FlyBookApi()
         _, x_csrf_token = self.fly_book_api.get_csrf_token(self.auth)
@@ -46,7 +47,7 @@ class FlyBookLive:
 
     async def main(self):
         params = ParamsBuilder.build_receive_msg_param(auth).get()
-        url = f"wss://msg-frontier.feishu.cn/ws/v2?{urlencode(params)}"
+        url = f"{self.base_url}?{urlencode(params)}"
         async with websockets.connect(url) as websocket:
             async for message in websocket:
                 try:
