@@ -1,4 +1,5 @@
 import re
+import time
 from urllib.parse import urlencode
 
 import asyncio
@@ -21,6 +22,27 @@ class FlyBookLive:
         _, self.me_id = self.fly_book_api.get_user_info(self.auth, x_csrf_token)
         self.me_id = str(self.me_id)
         self.ws = None
+
+    async def send_ack(self, ws, Packet_sid):
+        payload = FLY_BOOK_PROTO.Packet()
+        payload.cmd = 1
+        payload.payloadType = 1
+        payload.sid = Packet_sid
+        payload = payload.SerializeToString()
+        Frame = FLY_BOOK_PROTO.Frame()
+        current = int(time.time() * 1000)
+        Frame.seqid = current
+        Frame.logid = current
+        Frame.service = 1
+        Frame.method = 1
+        ExtendedEntry = FLY_BOOK_PROTO.ExtendedEntry()
+        ExtendedEntry.key = 'x-request-time'
+        ExtendedEntry.value = f'{current}000'
+        Frame.headers.append(ExtendedEntry)
+        Frame.payloadType = "pb"
+        Frame.payload = payload
+        Frame = Frame.SerializeToString()
+        await ws.send(Frame)
 
     async def main(self):
         params = ParamsBuilder.build_receive_msg_param(auth).get()
@@ -46,26 +68,17 @@ class FlyBookLive:
                                     else:
                                         chatId = user_or_group_id['id']
                                     self.fly_book_api.send_msg(self.auth, send_text, chatId)
-                                # else:
-                                #     raise Exception
+                                else:
+                                    raise Exception
                             except Exception as e:
                                 pass
                                 # send_text = '我是一个机器人，如果你想和我聊天，请@我并发送消息，消息格式：给$用户名$发送$消息内容$'
                                 # self.fly_book_api.send_msg(self.auth, send_text, MessageChatId)
 
-
-                    sends = FLY_BOOK_PROTO.Packet()
-                    sends.cmd = 1
-                    sends.payloadType = 1
-                    sends.sid = Packet_sid
-                    s = sends.SerializeToString()
-                    await websocket.send(s)
-                    # websocket.send(s, opcode=0x2)
+                    await self.send_ack(websocket, Packet_sid)
                     print('==============================')
                 except Exception as e:
                     exception = str(e)
-                    if 'parsing message' in exception:
-                        continue
                     print(str(e))
 
 

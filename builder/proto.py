@@ -140,41 +140,48 @@ class ProtoBuilder:
         fromId = None
         ChatId = None
         ReceiveTextContent = ''
+        print(1)
 
         Frame = FLY_BOOK_PROTO.Frame()
         Frame.ParseFromString(message)
         Frame = protobuf_to_dict(Frame)
-
+        print(2)
         payload = Frame['payload']
         Packet = FLY_BOOK_PROTO.Packet()
         Packet.ParseFromString(payload)
         Packet = protobuf_to_dict(Packet)
         Frame['payload'] = Packet
         Packet_sid = Packet['sid']
+        print(3)
         if 'payload' in Packet:
             payload = Packet['payload']
             PushMessagesRequest = FLY_BOOK_PROTO.PushMessagesRequest()
             PushMessagesRequest.ParseFromString(payload)
             PushMessagesRequest = protobuf_to_dict(PushMessagesRequest)
             Packet['payload'] = PushMessagesRequest
+            print(4)
             if 'messages' in PushMessagesRequest:
                 messages = PushMessagesRequest['messages']
                 for k, v in messages.items():
+                    message_type = v['type']
                     fromId = v['fromId']
                     content = v['content']
                     ChatId = v['chatId']
-                    TextContent = FLY_BOOK_PROTO.TextContent()
-                    TextContent.ParseFromString(content)
-                    TextContent = protobuf_to_dict(TextContent)
-                    v['content'] = TextContent
-                    dictionary = TextContent['richText']['elements']['dictionary']
-                    for k, v in dictionary.items():
-                        property = v['property']
-                        TextProperty = FLY_BOOK_PROTO.TextProperty()
-                        TextProperty.ParseFromString(property)
-                        TextProperty = protobuf_to_dict(TextProperty)
-                        v['property'] = TextProperty
-                        ReceiveTextContent += TextProperty['content']
+                    if message_type == 4:
+                        print(5)
+                        TextContent = FLY_BOOK_PROTO.TextContent()
+                        TextContent.ParseFromString(content)
+                        TextContent = protobuf_to_dict(TextContent)
+                        v['content'] = TextContent
+                        dictionary = TextContent['richText']['elements']['dictionary']
+                        for k, v in dictionary.items():
+                            property = v['property']
+                            TextProperty = FLY_BOOK_PROTO.TextProperty()
+                            TextProperty.ParseFromString(property)
+                            TextProperty = protobuf_to_dict(TextProperty)
+                            v['property'] = TextProperty
+                            ReceiveTextContent += TextProperty['content']
+                    print(6)
 
         return Frame, Packet_sid, fromId, ChatId, ReceiveTextContent
 
