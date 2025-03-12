@@ -92,6 +92,8 @@ class ProtoBuilder:
             UniversalSearchResponse.ParseFromString(payload)
             UniversalSearchResponse = protobuf_to_dict(UniversalSearchResponse)
             Packet['payload'] = UniversalSearchResponse
+
+            print(UniversalSearchResponse)
             for result in UniversalSearchResponse['results']:
                 if result['type'] == 1:
                     userAndGroupIds.append({
@@ -140,28 +142,21 @@ class ProtoBuilder:
         fromId = None
         ChatId = None
         ReceiveTextContent = ''
-        print(1)
-
         Frame = FLY_BOOK_PROTO.Frame()
         Frame.ParseFromString(message)
         Frame = protobuf_to_dict(Frame)
-        print(2)
         payload = Frame['payload']
         Packet = FLY_BOOK_PROTO.Packet()
         Packet.ParseFromString(payload)
         Packet = protobuf_to_dict(Packet)
         Frame['payload'] = Packet
         Packet_sid = Packet['sid']
-        print(3)
         if 'payload' in Packet:
             payload = Packet['payload']
-            print(1)
             PushMessagesRequest = FLY_BOOK_PROTO.PushMessagesRequest()
             PushMessagesRequest.ParseFromString(payload)
-            print(2)
             PushMessagesRequest = protobuf_to_dict(PushMessagesRequest)
             Packet['payload'] = PushMessagesRequest
-            print(4)
             if 'messages' in PushMessagesRequest:
                 messages = PushMessagesRequest['messages']
                 for k, v in messages.items():
@@ -170,7 +165,6 @@ class ProtoBuilder:
                     content = v['content']
                     ChatId = v['chatId']
                     if message_type == 4:
-                        print(5)
                         TextContent = FLY_BOOK_PROTO.TextContent()
                         TextContent.ParseFromString(content)
                         TextContent = protobuf_to_dict(TextContent)
@@ -183,7 +177,6 @@ class ProtoBuilder:
                             TextProperty = protobuf_to_dict(TextProperty)
                             v['property'] = TextProperty
                             ReceiveTextContent += TextProperty['content']
-                    print(6)
 
         return Frame, Packet_sid, fromId, ChatId, ReceiveTextContent
 
