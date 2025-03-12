@@ -7,5 +7,5 @@ COPY . .
 RUN npm install
 RUN pip install --no-cache-dir -r requirements.txt
 
-# docker build -t xianyuapp .
-# docker run -it xianyuapp bash
+# docker build -t feishuapp .
+# docker run -it feishuapp bash

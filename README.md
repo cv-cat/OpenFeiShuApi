@@ -1,20 +1,20 @@
-# 🐟 XianYuApis - 闲鱼第三方API集成库
+# OpenFeiShuApi 🚀 - 飞书第三方API集成库
 
-[![GitHub license](https://img.shields.io/github/license/cv-cat/XianYuApis)](https://github.com/cv-cat/XianYuApis/blob/main/LICENSE)
 [![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
-[![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![Python Version](https://img.shields.io/badge/nodejs-18%2B-blue)](https://nodejs.org/zh-cn/)
 
-非官方闲鱼开放API接口封装库，提供安全可靠的闲鱼平台功能访问能力。
-
+飞书开放API的Python现代化封装库，提供简洁优雅的接口设计与全面的功能覆盖。
 ⚠️ **注意**：如有侵权联系作者删除。
 
-## 🌟 核心特性
+🐛 [提交问题](https://github.com/cv-cat/OpenFeiShuApi/issues) | 💡 [讨论区](https://github.com/cv-cat/OpenFeiShuApi/discussions)
 
-- RESTful API + WebSocket 双通道
-- 独立功能组件即插即用
-- 基于`asyncio`的全异步架构
+## 特性亮点 ✨
 
-## 📦 快速开始
+- 🧩 **常用接口全覆盖** - 支持飞书开放平台全部API版本
+- 🚀 **异步优先** - 支持async/await异步模式
+- 📡 **事件框架** - 简洁易用的事件订阅处理中间件
+
+## 快速入门 🚴
 
 ### 环境要求
 - Python 3.8+
@@ -22,5 +22,5 @@
 
 ### 安装
 ```bash
-docker build -t xianyuapp .
-docker run -it xianyuapp bash
+docker build -t feishuapp .
+docker run -it feishuapp bash
