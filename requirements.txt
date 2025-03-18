@@ -2,3 +2,5 @@ requests
 loguru
 protobuf
 protobuf3_to_dict
+websocket-client
+blackboxprotobuf
