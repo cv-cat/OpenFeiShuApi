@@ -1,6 +1,6 @@
 requests
 loguru
-protobuf
-protobuf3_to_dict
 websocket-client
-blackboxprotobuf
+blackboxprotobuf==1.0.1
+protobuf==5.28.3
+protobuf3-to-dict==0.1.5
