@@ -1,6 +1,6 @@
 # OpenFeiShuApi 🚀 - 飞书第三方API集成库
 
-[![Python Version](https://img.shields.io/badge/python-3.8%2B-blue)](https://www.python.org/)
+[![Python Version](https://img.shields.io/badge/python-3.7%2B-blue)](https://www.python.org/)
 [![Python Version](https://img.shields.io/badge/nodejs-18%2B-blue)](https://nodejs.org/zh-cn/)
 
 **✨ 飞书开放API的Python现代化封装库，提供简洁优雅的接口设计与全面的功能覆盖。**
