@@ -16,7 +16,7 @@
 
 
 ## 🚀 一些成品
-- https://github.com/shaxiu/XianyuAutoAgent
+- pendding~
 
 
 ## 特性亮点 ✨
@@ -47,7 +47,7 @@ python FlyBookAutoAsync.py
 
 ### 🗝️注意事项
 - FlyBookAutoAsync.py中的代码是接收发消息的主入口，可以根据自己的需求进行修改
-- FlyBookApi.py.py中的代码包含了api接口的模板，sign参数已经解密，可以根据自己的需求进行修改，添加其他的接口
+- FlyBookApi.py中的代码包含了api接口的模板，sign参数已经解密，可以根据自己的需求进行修改，添加其他的接口
 
 
 ## 🧸额外说明
